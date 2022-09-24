@@ -5,35 +5,30 @@ resource "google_artifact_registry_repository" "my-repo" {
   format = "DOCKER"
 }
 
-
-resource "google_service_networking_connection" "private_vpc_connection" {
-  network                 = google_compute_network.vpc.self_link
-  service                 = "servicenetworking.googleapis.com"
-  reserved_peering_ranges = [google_compute_global_address.private_ip_block.name]
+variable "database_password" {
+    type = "grupo03"
+}
+variable "database_user" {
+    type = "grupo03"
 }
 
-
-resource "google_sql_database_instance" "main" {
-  name             = "main-instance"
-  database_version = "MYSQL_5_7"
-  region           = "us-central1"
-
-  settings {
-    # Second-generation instance tiers are based on the machine
-    # type. See argument reference below.
-    tier = "db-n1-standard-2"
- 
-  }
+resource "google_sql_database_instance" "instance" {
+    name="spotmusic"
+    region="us-east4"
+    database_version="MYSQL_8_0"
+    deletion_protection = false
+    settings{
+        tier="db-f1-micro"
+    }
 }
 
-resource "google_sql_database" "database" {
-  name     = "playlist"
-  instance = "main-instance" 
+resource "google_sql_database" "database"{
+    name="playlist"
+    instance=google_sql_database_instance.instance.name
 }
 
-resource "google_sql_user" "users" {
-name = "grupo03"
-instance = "main-instance"
-host = "%"
-password = "grupo03"
+resource "google_sql_user" "database-user" {
+    name = var.database_user
+    instance = google_sql_database_instance.instance.name
+    password = var.database_password
 }
