@@ -16,28 +16,9 @@ resource "google_sql_database_instance" "main" {
     tier = "db-n1-standard-2"
 
     ip_configuration {
-
-      dynamic "authorized_networks" {
-        for_each = google_compute_instance.apps
-        iterator = apps
-
-        content {
-          name  = apps.value.name
-          value = apps.value.network_interface.0.access_config.0.nat_ip
-        }
-      }
-
-      dynamic "authorized_networks" {
-        for_each = local.onprem
-        iterator = onprem
-
-        content {
-          name  = "onprem-${onprem.key}"
-          value = onprem.value
-        }
-      }
-    }
-
+      ipv4_enabled    = false
+      private_network = google_compute_network.private_network.id
+    }    
   }
 }
 
