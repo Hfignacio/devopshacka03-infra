@@ -6,10 +6,10 @@ resource "google_artifact_registry_repository" "my-repo" {
 }
 
 variable "database_password" {
-    type = "grupo03"
+    type = string
 }
 variable "database_user" {
-    type = "grupo03"
+    type = string
 }
 
 resource "google_sql_database_instance" "instance" {
