@@ -21,3 +21,10 @@ resource "google_sql_database" "database" {
   name     = "playlist"
   instance = "main-instance" 
 }
+
+resource "google_sql_user" "users" {
+name = "grupo03"
+instance = "main-instance"
+host = "%"
+password = "grupo03"
+}
