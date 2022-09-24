@@ -6,8 +6,8 @@ resource "google_artifact_registry_repository" "my-repo" {
 }
 
 resource "google_sql_database_instance" "instance" {
-    name="spotmusic"
-    region="us-east4"
+    name="hack03"
+    region="us-central1"
     database_version="MYSQL_8_0"
     deletion_protection = false
     settings{
