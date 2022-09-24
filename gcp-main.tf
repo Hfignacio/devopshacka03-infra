@@ -5,13 +5,6 @@ resource "google_artifact_registry_repository" "my-repo" {
   format = "DOCKER"
 }
 
-variable "database_password" {
-    type = string
-}
-variable "database_user" {
-    type = string
-}
-
 resource "google_sql_database_instance" "instance" {
     name="spotmusic"
     region="us-east4"
@@ -28,7 +21,7 @@ resource "google_sql_database" "database"{
 }
 
 resource "google_sql_user" "database-user" {
-    name = var.database_user
+    name = "grupo03"
     instance = google_sql_database_instance.instance.name
-    password = var.database_password
+    password = "grupo03"
 }
